@@ -2,8 +2,9 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "redispp.h"
+#include <redispp.h>
 #include "SMA/cache.h"
+#include "SMA/fetch.h"
 
 Logic::Logic() : prices("EUR_USD"), candles("EUR_USD")
 {
@@ -87,14 +88,37 @@ Logic::~Logic()
 
 void Logic::run()
 {
-    std::vector<double* > candlesVec;
-    redispp::Connection redis("127.0.0.1","6379", "password", false);
 
-    CachedSMA cacher(500);
+    FetchSMA fetch;
 
-    cacher.loadCandles();
+    std::vector<double> avg;
+    fetch.fetchSMA(avg, "D", 12, 500);
 
-    cacher.calculateSMA();
+    for (int i = 0; i <10; i++)
+    {
+        std::cout << avg[i] << std::endl;
+    }
+
+    avg.clear();
+    std::cout << "cleared" << std::endl;
+
+    fetch.fetchSMA(avg, "D", 45, 500);
+
+    for (int i = 0; i <10; i++)
+    {
+        std::cout << avg[i] << std::endl;
+    }
+
+
+
+    //std::vector<double* > candlesVec;
+    //redispp::Connection redis("127.0.0.1","6379", "password", false);
+
+    //CachedSMA cacher(500);
+
+    //cacher.loadCandles();
+
+    //cacher.calculateSMA();
 
     /*for (std::vector<std::string>::iterator it1=instruments.begin();
             it1!=instruments.end();
@@ -116,7 +140,7 @@ void Logic::run()
     std::cout << candlesVec.size() << std::endl;
     std::cout << sizeof(double) << std::endl;*/
 
-    sleep(50);
+    //sleep(50);
 
 
     /*Tick oldPrice = prices.getPrice();
@@ -138,4 +162,5 @@ void Logic::run()
         oldPrice = newPrice;
         sleep(5);
     }*/
+    std::cout << "done" << std::endl;
 }

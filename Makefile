@@ -4,7 +4,7 @@ OBJS    := $(patsubst %.cpp, %.o, $(SOURCES))
 OBJS    := $(foreach o,$(OBJS),./obj/$(o))
 DEPFILES:= $(patsubst %.o, %.P, $(OBJS))
 
-CFLAGS   = -Wall -g -MMD -I/home/scampen/Downloads/jsoncpp/include -I/home/scampen/git/sampleCode/redispp/src -c 
+CFLAGS   = -Wall -g -MMD -I/home/stuart/lib/jsoncpp/include -I/home/stuart/git/redispp/src -c 
 LDFLAGS=-lPocoNet -lPocoFoundation -lPocoNetSSL ./lib/libredispp.a ./lib/libjsoncpp.a
 COMPILER = g++
  
